@@ -20,6 +20,7 @@ Example of LLaMA rewriting a text sample:
 
 - **LaCLIP: Training with Rewritten Texts:**
 Having generated M different rewrites for each caption, we randomly select one of them as the augmented text for each image. We then train CLIP with the augmented image-text pairs. 
+<p align="center"><img src="asset/result.png" alt="result" width="500"/></p>
 
 ## Code Overview
 - 4 versions of augmented text on 3 datasets (CC3M, CC12M, RedCaps)
