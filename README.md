@@ -29,6 +29,7 @@ Having generated M different rewrites for each caption, we randomly select one o
 - PyTorch 1.11.0
 - torchvision 0.12.0
 - timm 0.5.4
+- [open_clip](https://github.com/mlfoundations/open_clip/tree/main) (optional, for LAION-400M models)
 
 
 ## Augmented Texts
@@ -119,12 +120,30 @@ Having generated M different rewrites for each caption, we randomly select one o
 <td align="center">46.2</td>
 <td align="center"><a href="https://www.dropbox.com/s/wpedkikz46gfzmg/redcaps_laclip.pt?dl=0">ViT-B/16</a></td>
 </tr>
+<tr>
+<td align="center">LAION-400M</td>
+<td align="center">CLIP</td>
+<td align="center">62.0</td>
+<td align="center"><a href="https://www.dropbox.com/s/zskxrso4pc4pe3j/laion400m_clip.pt?dl=0">ViT-B/32</a></td>
+</tr>
+<tr>
+<td align="center">LAION-400M</td>
+<td align="center">LaCLIP</td>
+<td align="center">64.4</td>
+<td align="center"><a href="https://www.dropbox.com/s/ahj8ys8uufndy9y/laion400m_laclip.pt?dl=0">ViT-B/32</a></td>
+</tr>
 </tbody></table>
 
 ## Zero-shot Evaluation on ImageNet
 To perform zero-shot evaluation on ImageNet, use the following command:
+
+For CC3M, CC12M and RedCaps models:
 ```
 python eval_zeroshot_imagenet.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path [PATH_TO_CHECKPOINT] --model CLIP_VITB16 --batch-size 128 --workers 8
+```
+For LAION-400M models:
+```
+python eval_zeroshot_imagenet_laion.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path [PATH_TO_CHECKPOINT] --model ViT-B-32 --batch-size 128 --workers 8
 ```
 
 ## Citation
