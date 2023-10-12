@@ -1,5 +1,14 @@
-# Improving CLIP Training with Language Rewrites
+# [NeurIPS 2023] Improving CLIP Training with Language Rewrites
 This repo contains text data, code and pre-trained models for paper [Improving CLIP Training with Language Rewrites](https://arxiv.org/abs/2305.20088). 
+If you find the data, models or code useful, please consider citing our paper:
+```bib
+@article{fan2023improving,
+  title={Improving CLIP Training with Language Rewrites},
+  author={Fan, Lijie and Krishnan, Dilip and Isola, Phillip and Katabi, Dina and Tian, Yonglong},
+  booktitle={NeurIPS},
+  year={2023}
+}
+```
 
 ## Overview: 
 We propose Language augmented CLIP (LaCLIP). LaCLIP enhances CLIP training by rewriting text descriptions with large language models. 
@@ -82,7 +91,7 @@ Example of LLaMA rewriting a text sample:
 <tr>
 <td align="center">LAION-400M</td>
 <td align="center">LaCLIP</td>
-<td align="center">69.4</td>
+<td align="center">69.3</td>
 <td align="center"><a href="https://www.dropbox.com/scl/fi/il3o958e2hvun2ei774ao/laion400m_laclip_vitb16.pt?rlkey=0domivxgaimqrfyuruak0h96b&dl=0">ViT-B/16</a></td>
 </tr>
 </tbody></table>
@@ -170,14 +179,4 @@ python eval_zeroshot_imagenet.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path 
 For LAION-400M models:
 ```
 python eval_zeroshot_imagenet_laion.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path [PATH_TO_CHECKPOINT] --model [ViT-B-32 or ViT-B-16] --batch-size 128 --workers 8
-```
-
-## Citation
-```bib
-@article{fan2023improving,
-  title={Improving CLIP Training with Language Rewrites},
-  author={Fan, Lijie and Krishnan, Dilip and Isola, Phillip and Katabi, Dina and Tian, Yonglong},
-  journal={arXiv preprint arXiv:2305.20088},
-  year={2023}
-}
 ```
