@@ -10,7 +10,6 @@ import argparse
 
 from tokenizer import SimpleTokenizer
 from open_clip import create_model_and_transforms
-from training.file_utils import pt_load
 from eval_zeroshot_imagenet import validate_zeroshot
 
 def main(args):
@@ -30,7 +29,8 @@ def main(args):
         aug_cfg={},
         output_dict=True,
     )
-    checkpoint = pt_load(args.ckpt_path, map_location='cpu')
+    with open(args.ckpt_path, 'rb') as f:
+        checkpoint = torch.load(f, map_location='cpu')
     sd = checkpoint["state_dict"]
     model.load_state_dict(sd)
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
