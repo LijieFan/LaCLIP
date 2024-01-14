@@ -94,6 +94,18 @@ Example of LLaMA rewriting a text sample:
 <td align="center">69.3</td>
 <td align="center"><a href="https://www.dropbox.com/scl/fi/il3o958e2hvun2ei774ao/laion400m_laclip_vitb16.pt?rlkey=0domivxgaimqrfyuruak0h96b&dl=0">ViT-B/16</a></td>
 </tr>
+<tr>
+<td align="center">LAION-400M</td>
+<td align="center">CLIP</td>
+<td align="center">71.8</td>
+<td align="center"><a href="https://www.dropbox.com/scl/fi/o61athl9ijt2pufoplpsh/laion400m_clip_vitl14.pt?rlkey=ri0fzco6b5yfs7aryxvxc9rvw&dl=0">ViT-L/14</a></td>
+</tr>
+<tr>
+<td align="center">LAION-400M</td>
+<td align="center">LaCLIP</td>
+<td align="center">74.5</td>
+<td align="center"><a href="https://www.dropbox.com/scl/fi/v9y0vtgfjisctl0qyufdg/laion400m_laclip_vitl14.pt?rlkey=pdyzxpjeji1mw1xztn5gptqgo&dl=0">ViT-L/14</a></td>
+</tr>
 </tbody></table>
 
 
@@ -102,6 +114,7 @@ Example of LLaMA rewriting a text sample:
 - 4 versions of augmented text on 3 datasets (CC3M, CC12M, RedCaps)
 - Pre-trained models with LaCLIP and vanilla CLIP
 - Zero-shot evaluation code on ImageNet
+- Code for training LaCLIP
 #### Dependencies
 - PyTorch 1.11.0
 - torchvision 0.12.0
@@ -178,5 +191,34 @@ python eval_zeroshot_imagenet.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path 
 ```
 For LAION-400M models:
 ```
-python eval_zeroshot_imagenet_laion.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path [PATH_TO_CHECKPOINT] --model [ViT-B-32 or ViT-B-16] --batch-size 128 --workers 8
+python eval_zeroshot_imagenet_laion.py --imagenet-root [PATH_TO_IMAGENET] --ckpt-path [PATH_TO_CHECKPOINT] --model [ViT-B-32, ViT-B-16 or ViT-L-14] --batch-size 128 --workers 8
 ```
+add `--quickgelu` for ViT-L-14 models.
+
+## Training LaCLIP
+To train LaCLIP, use the following command:
+```
+torchrun --nproc_per_node=GPU_PER_NODE --nnodes=NUM_NODE --node_rank=NODE_RANK \
+  --master_addr=MASTER_NODE --master_port=PORT \
+  train.py \
+    --train-data PATH/TO/TRAINING/CSV \
+    --root PATH/TO/TRAINING/IMAGE/ROOT \
+    --imagenet-root PATH/TO/IMAGENET/ROOT \
+    --aug-text --augmented_caption_filelist PATH/TO/AUGMENTED/CAPTION/FILES  \
+    --output-dir PATH/TO/OUTPUT \
+    --model CLIP_VITB16 \
+    --lr 1e-3 --wd 0.5  --warmup-epochs 1 --batch-size 256 --epochs 35
+```
+#### Main Arguments
+- `--train-data`: csv file for training data, each line is one image-text pair, with the relative image path and original caption separated by a comma
+- `--root`: root dir for images
+- `--imagenet-root`: root dir for ImageNet, used for zero-shot evaluation
+- `--aug-text`: whether to use augmented text
+- `--augmented_caption_filelist`: text files for augmented text, each line is one sentence, the order of the sentences should be the same as the order of the images in `--train-data`. Seperate the augmented text files with a space for multiple augmented text files.
+- `--output-dir`: saving dir for logs and checkpoints
+- `--model`: CLIP backbone architecture
+
+#### Additional Notes
+- Make sure the sample order in the `--augmented_caption_filelist` is the same as the order in `--train-data`.
+- Please refer to Table A3 in the paper for the hyperparameters used for each dataset.
+- To train vanilla CLIP, comment out the `--aug-text` and `--augmented_caption_filelist` arguments.

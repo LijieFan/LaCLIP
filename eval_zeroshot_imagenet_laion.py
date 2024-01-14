@@ -19,7 +19,7 @@ def main(args):
         precision='amp',
         device='cuda',
         jit=False,
-        force_quick_gelu=False,
+        force_quick_gelu=args.quickgelu,
         force_custom_text=False,
         force_patch_dropout=None,
         force_image_size=224,
@@ -62,6 +62,7 @@ if __name__ == '__main__':
     parser.add_argument('--ckpt-path', default='checkpoints/cc12m_laclip.ckpt', type=str, help='model to test')
     parser.add_argument('--batch-size', default=256, type=int, help='batch_size')
     parser.add_argument('--model', default='ViT-B-32', type=str, help='model architecture')
+    parser.add_argument('--quickgelu', action='store_true', help='Use quickgelu')
     parser.add_argument('-j', '--workers', default=10, type=int)
     args = parser.parse_args()
     main(args)
