@@ -2,7 +2,7 @@
 This repo contains text data, code and pre-trained models for paper [Improving CLIP Training with Language Rewrites](https://arxiv.org/abs/2305.20088). 
 If you find the data, models or code useful, please consider citing our paper:
 ```bib
-@article{fan2023improving,
+@inproceedings{fan2023improving,
   title={Improving CLIP Training with Language Rewrites},
   author={Fan, Lijie and Krishnan, Dilip and Isola, Phillip and Katabi, Dina and Tian, Yonglong},
   booktitle={NeurIPS},
